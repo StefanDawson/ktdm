@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	<!-- dao层的bean -->
+	<bean id="teacherDao" class="com.hc.ktdm.dao.impl.TeacherDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="managerDao" class="com.hc.ktdm.dao.impl.ManagerDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="studentDao" class="com.hc.ktdm.dao.impl.StudentDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="nameTableDao" class="com.hc.ktdm.dao.impl.NameTableDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="typeDao" class="com.hc.ktdm.dao.impl.TypeDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="courseDao" class="com.hc.ktdm.dao.impl.CourseDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	
+
+	
+	<!-- service层的bean -->
+	<bean id="teacherLoginService" class="com.hc.ktdm.service.impl.TeacherLoginServiceImpl">
+		<property name="teacherDao" ref="teacherDao"/>
+	</bean>
+	
+	<bean id="managerLoginService" class="com.hc.ktdm.service.impl.ManagerLoginServiceImpl">
+		<property name="managerDao" ref="managerDao"/>
+	</bean>
+	
+	<bean id="teacherService" class="com.hc.ktdm.service.impl.TeacherServiceImpl">
+		<property name="teacherDao" ref="teacherDao"/>
+	</bean>
+	
+	<bean id="managerService" class="com.hc.ktdm.service.impl.ManagerServiceImpl">
+		<property name="managerDao" ref="managerDao"/>
+	</bean>
+	
+	<bean id="signUpService" class="com.hc.ktdm.service.impl.SignUpServiceImpl">
+		<property name="studentDao" ref="studentDao"></property>
+	</bean>
+	
+	<bean id="nameTableService" class="com.hc.ktdm.service.impl.NameTableServiceImpl">
+		<property name="nameTableDao" ref="nameTableDao"></property>
+	</bean>
+	
+	<bean id="typeService" class="com.hc.ktdm.service.impl.TypeServiceImpl">
+		<property name="typeDao" ref="typeDao"></property>
+	</bean>
+	
+	<bean id="studentService" class="com.hc.ktdm.service.impl.StudentServiceImpl">
+		<property name="studentDao" ref="studentDao"/>
+	</bean>
+	
+	<bean id="courseService" class="com.hc.ktdm.service.impl.CourseServiceImpl">
+		<property name="courseDao" ref="courseDao"/>
+	</bean>
+	
+	<!-- action的bean -->
+	<bean id="loginpageAction" class="com.hc.ktdm.handler.LoginPageAction" scope="prototype"></bean>
+	
+	<bean id="teacherLoginAction" class="com.hc.ktdm.handler.LoginAction" scope="prototype">
+		<property name="loginService" ref="teacherLoginService"></property>
+		<!-- <property name="nameTableService" ref="nameTableService"></property> -->
+	</bean>
+	
+	<bean id="managerLoginAction" class="com.hc.ktdm.handler.LoginAction" scope="prototype">
+		<property name="loginService" ref="managerLoginService"></property>
+		
+	</bean>
+	
+	<bean id="attachCoursesAction" class="com.hc.ktdm.handler.AttachCoursesAction" scope="prototype">
+		<property name="teacherService" ref="teacherService"></property>
+		<property name="nameTableService" ref="nameTableService"></property>
+	</bean>
+	<bean id="signImgAction" class="com.hc.ktdm.handler.SignImgAction" scope="prototype"/>
+	
+	<bean id="signupAction" class="com.hc.ktdm.handler.SignUpAction" scope="prototype">
+		<property name="signUpService" ref="signUpService"></property>
+		<property name="nameTableService" ref="nameTableService"/>
+		<property name="teacherService" ref="teacherService"></property>
+		<property name="typeService" ref="typeService"></property>
+	</bean>	
+	
+	<bean id="signUpInfoAction" class="com.hc.ktdm.handler.SignUpInfoAction" scope="prototype">
+		<property name="nameTableService" ref="nameTableService"/>
+	</bean>
+	<bean id="userInfoAction" class="com.hc.ktdm.handler.UserInfoAction" scope="prototype">
+		<property name="teacherService" ref="teacherService"/>
+		<property name="managerService" ref="managerService"/>
+	</bean>
+	
+	<bean id="userAddAction" class="com.hc.ktdm.handler.UserAddAction" scope="prototype">
+		<property name="teacherService" ref="teacherService"/>
+		<property name="managerService" ref="managerService"/>
+	</bean>
+	
+	<bean id="currentInfoAction" class="com.hc.ktdm.handler.CurrentInfoActionOfUser">
+		<property name="teacherService" ref="teacherService"/>
+		<property name="managerService" ref="managerService"/>
+	</bean>
+	<bean id="modifyInfoAction" class="com.hc.ktdm.handler.ModifyInfoAction">
+		<property name="teacherService" ref="teacherService"/>
+		<property name="managerService" ref="managerService"/>
+	</bean>
+	
+	<bean id="removeInfoAction" class="com.hc.ktdm.handler.UserRemoveAction">
+		<property name="teacherService" ref="teacherService"/>
+		<property name="managerService" ref="managerService"/>
+	</bean>
+	<bean id="userQueryAction" class="com.hc.ktdm.handler.UserQueryAction">
+		<property name="teacherService" ref="teacherService"/>
+		<property name="managerService" ref="managerService"/>
+	</bean>
+	
+	<bean id="crsInfoAction" class="com.hc.ktdm.handler.CrsInfoAction" >
+		<property name="courseService" ref="courseService"/>
+	</bean>
+	<bean id="stuInfoAction" class="com.hc.ktdm.handler.StuInfoAction">
+		<property name="studentService" ref="studentService"/>
+		<property name="courseService" ref="courseService"/>
+	</bean>
+	<bean id="linkInfoAction" class="com.hc.ktdm.handler.LinkInfoAction">
+		<property name="studentService" ref="studentService"/>
+		<property name="courseService" ref="courseService"/>
+		<property name="teacherService" ref="teacherService"/>
+	</bean>
+</beans>

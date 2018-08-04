@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
+	<struts>
+		<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+		<package name="ktdm" namespace="/" extends="struts-default">
+			<global-allowed-methods>regex:.*</global-allowed-methods>
+			<action name="loginpage" class="loginpageAction">
+				<result>/WEB-INF/views/login.jsp</result>
+			</action>
+			<action name="login_2" class="teacherLoginAction">
+				<result>/WEB-INF/views/sign.jsp</result>
+				<result name="input">/WEB-INF/views/login.jsp</result>
+			</action>
+			
+			<action name="login_1" class="managerLoginAction" method="backstageLogin">
+				<result>/WEB-INF/views/backstage.jsp</result>
+				<result name="input">/WEB-INF/views/login.jsp</result>
+			</action>
+			
+			<action name="signup" class="signupAction">
+				<result>/WEB-INF/views/success.jsp</result>
+				<result name="successed">/WEB-INF/views/successed.jsp</result>
+			</action>
+		</package>
+		<!-- ajax调用spring中的action -->
+		<package name="ajax_json" namespace="/" extends="json-default">
+		 	<global-allowed-methods>regex:.*</global-allowed-methods>
+			<action name="attachCourses" class="attachCoursesAction" method="attach">
+				<result name="success" type="json"/>
+			</action>
+			<action name="signImg" class="signImgAction" method="generate">
+				<result name="success" type="json"/>
+			</action>
+			<action name="signupInfo" class="signUpInfoAction" method="info">
+				<result name="success" type="json"/>
+			</action>
+			<action name="userInfo_*" class="userInfoAction" method="{1}">
+				<result name="success" type="json"/>
+				<!-- <result name="query" type="redirectAction">userQuery_manQuery</result> -->
+			</action>
+			<action name="user_*" class="userAddAction" method="{1}">
+				<result name="success" type="json"/>
+			</action>
+			
+			<action name="info_*" class="currentInfoAction" method="{1}">
+				<result name="success" type="json"/>
+			</action>
+			<action name="userModify_*" class="modifyInfoAction" method="{1}">
+				<result name="success" type="json"/>
+			</action>
+			<action name="userRemove_*" class="removeInfoAction" method="{1}">
+				<result name="success" type="json"/>
+			</action>
+			<action name="userQuery_*" class="userQueryAction" method="{1}">
+				<result name="success" type="json"/>
+			</action>
+			<action name="crs_*" class="crsInfoAction" method="{1}">
+				<result name="success" type="json"/>
+			</action>
+			<action name="stu_*" class="stuInfoAction" method="{1}">
+				<result name="success" type="json"/>
+			</action>
+			<action name="link_*" class="linkInfoAction" method="{1}">
+				<result name="success" type="json"/>
+				<result name="noexist" type="json"/>
+			</action>
+		</package>
+	</struts>
